@@ -40,7 +40,10 @@ class Block:
         self.pos[0] -= 1
 
     def move_right(self):
-        self.pos[0] += 1 
+        self.pos[0] += 1
+
+    def move_up(self):
+        self.pos[1] -= 1
 
 class BlockCreator:
     SHAPES = [[[1, 1, 1, 1]],

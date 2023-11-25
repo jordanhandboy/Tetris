@@ -24,6 +24,7 @@ def game_loop():
     while True:
 
         controller.handle_events()
+        controller.update()
         
         pencil.draw_board()
 

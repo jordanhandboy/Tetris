@@ -2,8 +2,10 @@ import pygame
 from pygame.locals import *
 
 class TetrisController:
-    def __init__(self, tetris_game):
-        self.tetris_game = tetris_game
+    def __init__(self, game):
+        self.game = game
+        self.down_timer = pygame.time.get_ticks()
+        self.fall_speed = 1000
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -15,10 +17,18 @@ class TetrisController:
 
     def handle_keydown(self, key):
         if key == K_LEFT:
-            self.tetris_game.move_left()
+            self.game.move_left()
         elif key == K_RIGHT:
-            self.tetris_game.move_right()
+            self.game.move_right()
         elif key == K_DOWN:
-            self.tetris_game.move_down()
+            self.game.move_down()
+        elif key == K_SPACE:
+            self.game.drop()
         elif key == K_UP:
-            self.tetris_game.rotate_right()
+            self.game.rotate_right()
+
+    def update(self):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.down_timer > self.fall_speed:
+            self.game.move_down()
+            self.down_timer = current_time
