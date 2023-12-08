@@ -1,9 +1,10 @@
 import pygame
 import sys
-from tetris_pencil import *
-from tetris_controller import *
 
 pygame.init()
+
+from tetris_pencil import *
+from tetris_controller import *
 
 screen = None
 
@@ -14,29 +15,43 @@ def main():
     width, height = 800, 600
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Tetris")
-    game_loop()
+    start_screen()
 
 def game_loop():
     game = TetrisGame()
     pencil = TetrisPencil(screen, game)
     controller = TetrisController(game)
-    game.add_block(BlockCreator.create_block(0))
+    game.generate_block()
     while True:
 
         controller.handle_events()
         controller.update()
         
+        screen.fill((0, 0, 0))
         pencil.draw_board()
 
         pygame.display.flip()
         pygame.time.Clock().tick(fps)
 
 def start_screen():
+    def leave():
+        pygame.quit()
+        sys.exit()
+    start_button = Button(screen, "Start", (0, 0, 0), (255, 255, 255), 300, 200, game_loop)
+    exit_button = Button(screen, "Exit", (0, 0, 0), (255, 255, 255), 300, 400, leave)
+    buttons = [start_button, exit_button]
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                leave()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                for button in buttons:
+                    button.check_pressed(pos)
+        for button in buttons:
+            button.draw()
+        pygame.display.flip()
+        
 
 if __name__ == "__main__":
     main()

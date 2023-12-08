@@ -1,17 +1,23 @@
 class Block:
-    def __init__(self, shape, color):
+    def __init__(self, shape: list, color: tuple):
         self.shape = shape
         self.color = color
         self.pos = [4, 0]
 
-    def get_pos(self):
+    def get_pos(self) -> list:
         return self.pos
     
     def set_pos(self, pos):
         self.pos = pos
 
-    def get_shape(self):
+    def get_shape(self) -> list:
         return self.shape
+    
+    def get_color(self) -> tuple:
+        return self.color
+    
+    def set_color(self, color):
+        self.color = color
 
     def rotate_right(self):
         newShape = []
@@ -66,8 +72,16 @@ class BlockCreator:
               [[0, 1, 0],
                [1, 1, 1]]]
     
+    COLORS = [(1, 237, 250),
+              (46, 46, 132),
+              (255, 200, 46),
+              (254, 251, 52),
+              (83, 218, 63),
+              (253, 63, 89),
+              (221, 10, 178)]
+    
     def create_block(block_id):
-        return Block(BlockCreator.SHAPES[block_id], block_id)
+        return Block(BlockCreator.SHAPES[block_id], BlockCreator.COLORS[block_id])
     
 # class OBlock(Block):
 
