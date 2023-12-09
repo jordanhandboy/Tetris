@@ -45,5 +45,6 @@ class TetrisController:
     def update(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.down_timer > self.fall_speed:
-            self.game.move_down()
+            if not self.game.move_down():
+                self.game.drop()
             self.down_timer = current_time

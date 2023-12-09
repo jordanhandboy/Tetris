@@ -111,8 +111,10 @@ class TetrisGame():
             self.test_update(prev_pos, prev_shape)
         except:
             self.current_block.move_up()
+            return False
         else:
             self.update(prev_pos, prev_shape)
+            return True
 
     def move_left(self):
         prev_pos = deepcopy(self.current_block.get_pos())
