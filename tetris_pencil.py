@@ -30,4 +30,10 @@ class TetrisPencil:
         score = self.game.get_lines_cleared()
         score_text = Text(self.window, f"Score: {score}", white, (0, 0, 0), cell_size*10+x+30, 200)
         score_text.draw()
+        instructions_text1 = Text(self.window, f"Movement: W,A,S,D", white, (0, 0, 0), cell_size*10+x+30, 300)
+        instructions_text2 = Text(self.window, f"Rotation: K,L", white, (0, 0, 0), cell_size*10+x+30, 330)
+        instructions_text3 = Text(self.window, f"Drop: Space", white, (0, 0, 0), cell_size*10+x+30, 360)
+        instructions_text1.draw()
+        instructions_text2.draw()
+        instructions_text3.draw()
         
