@@ -10,6 +10,11 @@ class TetrisGame():
         self.current_block = 0
         self.views = []
         self.lines_cleared = 0
+        self.generate_bag()
+        self.running = True
+
+    def get_running(self):
+        return self.running
 
     def add_view(self, view):
         self.views.append(view)
@@ -20,12 +25,27 @@ class TetrisGame():
 
     def add_block(self, block, x=4, y=0):
         self.current_block = block
-        self.update()
+        try:
+            self.update()
+        except:
+            self.running = False
 
     def place_block(self):
         self.current_block = 0
         self.check_lines()
-        self.generate_block()
+        self.next_block()
+
+    def generate_bag(self):
+        random_list = [0, 1, 2, 3, 4, 5, 6]
+        random.shuffle(random_list)
+        self.bag = [BlockCreator.create_block(x) for x in random_list]
+
+    def next_block(self):
+        try:
+            self.add_block(self.bag.pop())
+        except:
+            self.generate_bag()
+            self.add_block(self.bag.pop())
 
     def check_lines(self):
         for i in range(len(self.board)):
@@ -40,9 +60,6 @@ class TetrisGame():
         self.board.pop(line)
         self.board.insert(0, [[0, (0, 0, 0)] for i in range(self.columns)])
         self.lines_cleared += 1
-
-    def generate_block(self):
-        self.add_block(BlockCreator.create_block(random.randrange(0, 7)))
 
     def update(self, prev_pos=False, prev_shape=False):
         if prev_pos or prev_shape:

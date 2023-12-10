@@ -21,9 +21,11 @@ def game_loop():
     game = TetrisGame()
     pencil = TetrisPencil(screen, game)
     controller = TetrisController(game)
-    game.generate_block()
+    game.next_block()
     while True:
-
+        if not game.get_running():
+            Text(screen, "Game Over", (255, 255, 255), (125, 125, 125), 220, 100, pygame.font.Font('Assets/BergenMono-Regular.otf', size=40)).draw()
+            break
         controller.handle_events()
         controller.update()
         
