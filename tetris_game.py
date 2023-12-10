@@ -16,6 +16,7 @@ class TetrisGame():
         self.running = True
         self.held_piece = 0
         self.able_to_hold = True
+        self.highlight = 0
 
     def get_running(self):
         return self.running
@@ -90,8 +91,9 @@ class TetrisGame():
         if prev_pos or prev_shape:
             self.clear_block(self.board, prev_pos, prev_shape)
 
-        if self.current_block:
+        if self.current_block != 0:
             self.place_current_block(self.board)
+            self.update_highlight()
 
         self.notify_views()
 
@@ -197,6 +199,26 @@ class TetrisGame():
         self.update(prev_pos, prev_shape)
         self.place_block()
 
+    def update_highlight(self):
+        test_board = deepcopy(self.board)
+        highlight = deepcopy(self.current_block)
+        self.clear_block(test_board, self.current_block.pos, self.current_block.shape)
+        highlight.move_down()
+        while True:
+            try:
+                shape = highlight.get_shape()
+                pos = highlight.get_pos()
+                for i in range(len(shape)):
+                    for j in range(len(shape[0])):
+                        if test_board[i+pos[1]][j+pos[0]][0] + shape[i][j] > 1:
+                            raise ValueError
+            except:
+                highlight.move_up()
+                break
+            else:
+                highlight.move_down()
+        self.highlight = highlight
+
     def get_board(self):
         return self.board
     
@@ -205,6 +227,9 @@ class TetrisGame():
     
     def get_held_piece(self):
         return self.held_piece
+    
+    def get_highlight(self):
+        return self.highlight
 
     # def __str__(self):
     #     output = ""

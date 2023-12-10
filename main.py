@@ -52,8 +52,7 @@ def start_screen():
                     button.check_pressed(pos)
         for button in buttons:
             button.draw()
-        pygame.display.flip()
-        
+        pygame.display.flip()  
 
 if __name__ == "__main__":
     main()

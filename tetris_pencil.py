@@ -16,6 +16,7 @@ class TetrisPencil:
         self.draw_instructions()
         self.draw_next_block()
         self.draw_hold()
+        self.draw_highlight()
 
     def draw_board(self):
         white = (255, 255, 255)
@@ -64,12 +65,14 @@ class TetrisPencil:
     def draw_instructions(self):
         white = (255, 255, 255)
         x = 250
-        instructions_text1 = Text(self.window, f"Movement: W,A,S,D", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 470)
-        instructions_text2 = Text(self.window, f"Rotation: K,L", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 500)
-        instructions_text3 = Text(self.window, f"Drop: Space", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 530)
+        instructions_text1 = Text(self.window, f"Movement: W,A,S,D", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 440)
+        instructions_text2 = Text(self.window, f"Rotation: K,L", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 470)
+        instructions_text3 = Text(self.window, f"Drop: Space", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 500)
+        instructions_text4 = Text(self.window, f"Hold: Shift", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 530)
         instructions_text1.draw()
         instructions_text2.draw()
         instructions_text3.draw()
+        instructions_text4.draw()
 
     def draw_score(self):
         white = (255, 255, 255)
@@ -77,4 +80,22 @@ class TetrisPencil:
         score = self.game.get_lines_cleared()
         score_text = Text(self.window, f"Score: {score}", white, (0, 0, 0), TetrisPencil.CELL_SIZE*10+x+30, 400)
         score_text.draw()
+
+    def draw_highlight(self):
+        highlight = self.game.get_highlight()
+        prev_color = highlight.get_color()
+        highlight.set_color((prev_color[0], prev_color[1], prev_color[2]))
+        x = 250
+        y = 50
+        if highlight != 0:
+            x = TetrisPencil.CELL_SIZE*highlight.get_pos()[0]+x
+            y = TetrisPencil.CELL_SIZE*highlight.get_pos()[1]+y
+            for line in highlight.get_shape():
+                curr_x = x
+                for cell in line:
+                    cell_rect = (curr_x+TetrisPencil.OUTLINE_SIZE, y+TetrisPencil.OUTLINE_SIZE, TetrisPencil.CELL_SIZE-TetrisPencil.OUTLINE_SIZE, TetrisPencil.CELL_SIZE-TetrisPencil.OUTLINE_SIZE)
+                    if cell == 1:
+                        pygame.draw.rect(self.window, highlight.get_color(), cell_rect, 2)
+                    curr_x += TetrisPencil.CELL_SIZE
+                y += TetrisPencil.CELL_SIZE
         
