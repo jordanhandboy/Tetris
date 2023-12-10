@@ -35,6 +35,8 @@ class TetrisController:
             self.game.rotate_left()
         elif key == K_UP or key == K_l:
             self.game.rotate_right()
+        elif key == K_LSHIFT:
+            self.game.hold_piece()
 
     def handle_continuous_move(self, move_function):
         current_time = pygame.time.get_ticks()

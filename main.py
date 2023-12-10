@@ -24,13 +24,13 @@ def game_loop():
     game.next_block()
     while True:
         if not game.get_running():
-            Text(screen, "Game Over", (255, 255, 255), (125, 125, 125), 220, 100, pygame.font.Font('Assets/BergenMono-Regular.otf', size=40)).draw()
+            Text(screen, "Game Over", (255, 255, 255), (125, 125, 125), 270, 100, pygame.font.Font('Assets/BergenMono-Regular.otf', size=40)).draw()
             break
+        screen.fill((0, 0, 0))
         controller.handle_events()
         controller.update()
         
-        screen.fill((0, 0, 0))
-        pencil.draw_board()
+        pencil.draw_everything()
 
         pygame.display.flip()
         pygame.time.Clock().tick(fps)
@@ -39,8 +39,8 @@ def start_screen():
     def leave():
         pygame.quit()
         sys.exit()
-    start_button = Button(screen, "Start", (0, 0, 0), (255, 255, 255), 300, 200, game_loop)
-    exit_button = Button(screen, "Exit", (0, 0, 0), (255, 255, 255), 300, 400, leave)
+    start_button = Button(screen, "Start", (0, 0, 0), (255, 255, 255), 350, 200, game_loop)
+    exit_button = Button(screen, "Exit", (0, 0, 0), (255, 255, 255), 355, 400, leave)
     buttons = [start_button, exit_button]
     while True:
         for event in pygame.event.get():

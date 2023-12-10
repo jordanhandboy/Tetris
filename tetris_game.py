@@ -10,8 +10,12 @@ class TetrisGame():
         self.current_block = 0
         self.views = []
         self.lines_cleared = 0
+        self.bag = []
+        self.generate_bag()
         self.generate_bag()
         self.running = True
+        self.held_piece = 0
+        self.able_to_hold = True
 
     def get_running(self):
         return self.running
@@ -21,9 +25,14 @@ class TetrisGame():
 
     def notify_views(self):
         for view in self.views:
-            view.draw_board()
+            view.draw_everything()
+    
+    def notify_new_block(self):
+        for view in self.views:
+            view.draw_next_block()
 
     def add_block(self, block, x=4, y=0):
+        block.set_pos([x, y])
         self.current_block = block
         try:
             self.update()
@@ -34,18 +43,21 @@ class TetrisGame():
         self.current_block = 0
         self.check_lines()
         self.next_block()
+        self.able_to_hold = True
 
     def generate_bag(self):
         random_list = [0, 1, 2, 3, 4, 5, 6]
         random.shuffle(random_list)
-        self.bag = [BlockCreator.create_block(x) for x in random_list]
+        self.bag += [BlockCreator.create_block(x) for x in random_list]
+
+    def get_bag(self):
+        return self.bag
 
     def next_block(self):
-        try:
-            self.add_block(self.bag.pop())
-        except:
+        self.add_block(self.bag.pop())
+        self.notify_new_block()
+        if len(self.bag) < 6:
             self.generate_bag()
-            self.add_block(self.bag.pop())
 
     def check_lines(self):
         for i in range(len(self.board)):
@@ -60,6 +72,19 @@ class TetrisGame():
         self.board.pop(line)
         self.board.insert(0, [[0, (0, 0, 0)] for i in range(self.columns)])
         self.lines_cleared += 1
+
+    def hold_piece(self):
+        if not self.able_to_hold:
+            return
+        self.clear_block(self.board, self.current_block.pos, self.current_block.shape)
+        if self.held_piece != 0:
+            former_held = self.held_piece
+            self.held_piece = self.current_block
+            self.add_block(former_held)
+        else:
+            self.held_piece = self.current_block
+            self.next_block()
+        self.able_to_hold = False
 
     def update(self, prev_pos=False, prev_shape=False):
         if prev_pos or prev_shape:
@@ -177,6 +202,9 @@ class TetrisGame():
     
     def get_lines_cleared(self):
         return self.lines_cleared
+    
+    def get_held_piece(self):
+        return self.held_piece
 
     # def __str__(self):
     #     output = ""
