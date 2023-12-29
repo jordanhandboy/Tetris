@@ -6,6 +6,9 @@ pygame.init()
 from tetris_pencil import *
 from tetris_controller import *
 
+# Import the pygame.font module
+import pygame.font
+
 screen = None
 
 fps = 60
@@ -24,12 +27,13 @@ def game_loop():
     game.next_block()
     while True:
         if not game.get_running():
-            Text(screen, "Game Over", (255, 255, 255), (125, 125, 125), 270, 100, pygame.font.Font('Assets/BergenMono-Regular.otf', size=40)).draw()
+            # Use "DejaVu Sans" font here
+            Text(screen, "Game Over", (255, 255, 255), (125, 125, 125), 270, 100, pygame.font.SysFont("DejaVuSans", size=40)).draw()
             break
         screen.fill((0, 0, 0))
         controller.handle_events()
         controller.update()
-        
+
         pencil.draw_everything()
 
         pygame.display.flip()
@@ -52,7 +56,8 @@ def start_screen():
                     button.check_pressed(pos)
         for button in buttons:
             button.draw()
-        pygame.display.flip()  
+        pygame.display.flip()
 
 if __name__ == "__main__":
     main()
+

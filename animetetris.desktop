@@ -1,0 +1,18 @@
+[Desktop Entry]
+Categories=Game;
+Comment[en_US]=Block Game
+Comment=Block Game
+Exec=python /usr/share/animetetris/main.py
+GenericName[en_US]=
+GenericName=
+Icon=/usr/share/animetetris/bg.jpg
+MimeType=
+Name[en_US]=animetetris
+Name=animetetris
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=

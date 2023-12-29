@@ -9,14 +9,19 @@ class TetrisPencil:
         self.window = window
         self.game = game
         self.game.add_view(self)
+        self.background_image = pygame.image.load("/usr/share/animetetris/bg.jpg")
 
     def draw_everything(self):
+        self.draw_background()
         self.draw_board()
         self.draw_score()
         self.draw_instructions()
         self.draw_next_block()
         self.draw_hold()
         self.draw_highlight()
+    
+    def draw_background(self):
+        self.window.blit(self.background_image, (0,0))
 
     def draw_board(self):
         white = (255, 255, 255)

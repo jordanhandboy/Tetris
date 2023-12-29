@@ -1,7 +1,7 @@
 import pygame
 
 class Text():
-    DEFAULT_FONT = pygame.font.Font('Assets/BergenMono-Regular.otf', size=20)
+    DEFAULT_FONT = pygame.font.SysFont('DejaVuSans', size=20)
 
     def __init__(self, window, text: str, text_color: tuple, background_color, x: int, y: int, font=DEFAULT_FONT):
         self.window = window
